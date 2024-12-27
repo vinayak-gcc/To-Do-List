@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, LineChart, Line } from 'recharts';
 import { io } from 'socket.io-client';
 
 // Connect to the Socket.IO server from Backend URL
@@ -10,11 +10,13 @@ function TodoList() {
   const [newTask, setNewTask] = useState('');
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingText, setEditingText] = useState('');
+  const [updateCounts, setUpdateCounts] = useState([]);
 
 
   useEffect(() => {
     socket.on('taskUpdated', (updatedTasks) => {
       setTasks(updatedTasks);
+      setUpdateCounts(prev => [...prev, { time: new Date().toLocaleTimeString(), count: updatedTasks.length }]);
     });
 
     return () => {
@@ -88,12 +90,12 @@ function TodoList() {
         Made by Vinayak Pathak 
       </div>
 
-      <div className="max-w-md mx-auto mt-12 md:mt-10 p-2 md:p-4 ">
+      <div className="max-w-md mx-auto md:mt-2 p-2 md:p-4">
         <h1 className="text-2xl font-bold mb-4 text-center">Tasks</h1>
-        <div className="flex mb-4">
+        <div className="flex mb-4 w-[27.2rem]">
           <input
             type="text"
-            className="flex-1 p-2 border rounded border-2 border-black"
+            className="flex-1  p-2 border rounded border-2 border-black"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             onKeyDown={handleKeyPress} 
@@ -103,13 +105,13 @@ function TodoList() {
             onClick={AddTask}
             className="ml-2 p-2 bg-blue-500 border-2 border-black text-white rounded hover:bg-pink-600"
           >
-            Add
+            Create
           </button>
         </div>
 
-        <div>
+        <div className=''>
           {tasks.map((task, index) => (
-            <div key={index} className="flex bg-gray-200 items-center mb-2 w-[25rem]">
+            <div key={index} className="flex bg-gray-200 items-center mb-2 w-[24rem]">
               {editingIndex === index ? (
                 <>
                   <input
@@ -160,6 +162,7 @@ function TodoList() {
                   >
                     Delete
                   </button>
+                
                 </>
               )}
             </div>
@@ -169,7 +172,7 @@ function TodoList() {
       </div>
 
       {/* Data Charts */}
-      <div className='flex flex-col md:flex-row justify-center mt-4'>
+      <div className='flex flex-col md:flex-row justify-center mt-4' >
         
         {/* Pie Chart */}
         <h2 className="text-xl font-bold mt-6">Task Distribution</h2>
@@ -191,6 +194,16 @@ function TodoList() {
           <Legend />
           <Bar dataKey="count" fill="#8884d8" />
         </BarChart>
+
+      {/* Line Chart */}
+      <h2 className="text-xl font-bold mt-6">Updated/Created <br/> Tasks Over Time</h2>
+      <LineChart width={600} height={300} data={updateCounts}>
+        <XAxis dataKey="time" />
+        <YAxis />
+        <Tooltip />
+        <Line type="monotone" dataKey="count" stroke="#8884d8" />
+      </LineChart>
+
       </div>
     </>
   );

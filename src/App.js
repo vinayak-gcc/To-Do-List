@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-    <div className="App mx-4 my-4">
+    <div className="App" style={{transform: 'scale(0.8)'}} >
     <Tasks/>
     </div>
     </>
