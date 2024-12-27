@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { io } from 'socket.io-client';
 
-// Connect to the Socket.IO server from Backend
-const socket = io('https://internship-task-backend-mfy7.onrender.com/'); // Ensure this matches your server URL
+// Connect to the Socket.IO server from Backend URL
+const socket = io('https://internship-task-backend-mfy7.onrender.com/'); 
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
@@ -11,13 +11,12 @@ function TodoList() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingText, setEditingText] = useState('');
 
+
   useEffect(() => {
-    // Listen for task updates from the server
     socket.on('taskUpdated', (updatedTasks) => {
       setTasks(updatedTasks);
     });
 
-    // Clean up the listener on component unmount
     return () => {
       socket.off('taskUpdated');
     };
@@ -30,7 +29,6 @@ function TodoList() {
     }
     const newTaskObj = { text: newTask, completed: false };
     
-    // Emit event to add task
     socket.emit('addTask', newTaskObj);
     
     setNewTask('');
@@ -47,7 +45,6 @@ function TodoList() {
       return;
     }
     
-    // Emit event to update task
     socket.emit('updateTask', { index, text: editingText });
     
     setEditingIndex(null);
@@ -55,7 +52,6 @@ function TodoList() {
   };
 
   const CompleteTask = (index) => {
-    // Emit event to complete/undo task
     socket.emit('completeTask', index);
   };
 
@@ -88,7 +84,7 @@ function TodoList() {
 
   return (
     <>
-      <div className='ml-2 md:absolute'>
+      <div className='ml-2 md:absolute font-semibold'>
         Made by Vinayak Pathak 
       </div>
 
@@ -123,6 +119,8 @@ function TodoList() {
                     onChange={(e) => setEditingText(e.target.value)}
                     placeholder="Update task..."
                   />
+
+                  {/* Save Button */}
                   <button
                     onClick={() => UpdateTask(index)}
                     className="ml-2 p-1 bg-green-500 text-white rounded hover:bg-green-600 border-2 border-black"
