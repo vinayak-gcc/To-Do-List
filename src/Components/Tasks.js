@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Line
 import { io } from 'socket.io-client';
 
 // Connect to the Socket.IO server from Backend URL
-const socket = io('https://internship-task-backend-mfy7.onrender.com/'); 
+const socket = io('https://internship-task-backend-mfy7.onrender.com/'); // Insert your Deployed Backend URL here or use the default URL http://localhost:3003/
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
