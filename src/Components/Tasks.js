@@ -3,7 +3,9 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Line
 import { io } from 'socket.io-client';
 
 // Connect to the Socket.IO server from Backend URL
-const socket = io('https://internship-task-backend-mfy7.onrender.com/'); // Insert your Deployed Backend URL here or use the default URL http://localhost:3003/
+// Insert your Deployed Backend URL here or use the default URL http://localhost:3003/
+
+const socket = io( 'https://internship-task-backend-mfy7.onrender.com/'|| 'http://localhost:3003/'); 
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
@@ -16,7 +18,8 @@ function TodoList() {
   useEffect(() => {
     socket.on('taskUpdated', (updatedTasks) => {
       setTasks(updatedTasks);
-      setUpdateCounts(prev => [...prev, { time: new Date().toLocaleTimeString(), count: updatedTasks.length }]);
+      setUpdateCounts(prev => [...prev, 
+        { time: new Date().toLocaleTimeString(), count: updatedTasks.length }]);
     });
 
     return () => {
@@ -37,7 +40,6 @@ function TodoList() {
   };
 
   const DeleteTask = (index) => {
-    // Emit event to delete task
     socket.emit('deleteTask', index);
   };
 

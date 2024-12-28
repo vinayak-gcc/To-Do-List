@@ -10,15 +10,15 @@ This Full-stack project's goal is to create a responsive and user-friendly appli
 
 ## 1. Clone the Front-end repository
 
-- git clone <https://github.com/vinayak-gcc/internship-task.git>
-- cd internship-task
+- git clone <https://github.com/vinayak-gcc/To-Do-List.git>
+- cd To-Do-List
 - use npm install and install the necessary dependencies.
 - it will run on <http://localhost:3000/>
 
 ## 2. Clone the Back-end repository
 
 - Create a separate Back-end folder
-- git clone <https://github.com/vinayak-gcc/internship-task-backend.git>
+- git clone <https://github.com/vinayak-gcc/To-Do-List-Back-end.git>
 - cd Back-end
 - it will run on <http://localhost:3003/>
 
